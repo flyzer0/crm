@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qy.crm.data.dao.SelectTagsMapper">
+  <resultMap id="BaseResultMap" type="com.qy.crm.data.pojo.SelectTags">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="tag_type" jdbcType="VARCHAR" property="tagType" />
+    <result column="biz_type" jdbcType="VARCHAR" property="bizType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, tag_type, biz_type, name
+  </sql>
+  <select id="selectByExample" parameterType="com.qy.crm.data.pojo.SelectTagsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from select_tags
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from select_tags
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from select_tags
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qy.crm.data.pojo.SelectTagsExample">
+    delete from select_tags
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qy.crm.data.pojo.SelectTags">
+    insert into select_tags (id, tag_type, biz_type, 
+      name)
+    values (#{id,jdbcType=BIGINT}, #{tagType,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qy.crm.data.pojo.SelectTags">
+    insert into select_tags
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tagType != null">
+        tag_type,
+      </if>
+      <if test="bizType != null">
+        biz_type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tagType != null">
+        #{tagType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null">
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qy.crm.data.pojo.SelectTagsExample" resultType="java.lang.Long">
+    select count(*) from select_tags
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update select_tags
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.tagType != null">
+        tag_type = #{record.tagType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizType != null">
+        biz_type = #{record.bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update select_tags
+    set id = #{record.id,jdbcType=BIGINT},
+      tag_type = #{record.tagType,jdbcType=VARCHAR},
+      biz_type = #{record.bizType,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qy.crm.data.pojo.SelectTags">
+    update select_tags
+    <set>
+      <if test="tagType != null">
+        tag_type = #{tagType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null">
+        biz_type = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qy.crm.data.pojo.SelectTags">
+    update select_tags
+    set tag_type = #{tagType,jdbcType=VARCHAR},
+      biz_type = #{bizType,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="pageData" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM select_tags
+    <include refid="Page_Where" />
+  </select>
+  <sql id="Page_Where">
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="name != null and name != ''">
+        name like CONCAT('%', #{name,jdbcType=VARCHAR},'%')
+      </if>
+    </trim>
+  </sql>
+
+  <select id="selectAllName" resultMap="BaseResultMap">
+    SELECT  id, name FROM select_tags
+  </select>
+</mapper>

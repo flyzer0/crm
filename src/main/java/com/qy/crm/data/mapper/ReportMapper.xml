@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qy.crm.data.dao.ReportMapper">
+  <resultMap id="BaseResultMap" type="com.qy.crm.data.pojo.Report">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="parse_type" jdbcType="VARCHAR" property="parseType" />
+    <result column="parse_orgnization" jdbcType="VARCHAR" property="parseOrgnization" />
+    <result column="parse_title" jdbcType="VARCHAR" property="parseTitle" />
+    <result column="parse_reportdate" jdbcType="TIMESTAMP" property="parseReportdate" />
+    <result column="parse_authors" jdbcType="VARCHAR" property="parseAuthors" />
+    <result column="parse_pagecount" jdbcType="VARCHAR" property="parsePagecount" />
+    <result column="parse_keypoint" jdbcType="VARCHAR" property="parseKeypoint" />
+    <result column="mandatory_tags" jdbcType="VARCHAR" property="mandatoryTags" />
+    <result column="optional_tags" jdbcType="VARCHAR" property="optionalTags" />
+    <result column="selection" jdbcType="INTEGER" property="selection" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    report.id,url,parse_type,parse_orgnization,parse_title,parse_reportdate,
+    parse_authors,parse_pagecount,(case when report.id in
+			(select record_id from select_info info where info.table='${tableName}')
+			then '1' else '0' end)selection
+  </sql>
+  <sql id="Blob_Column_List">
+    '0' mandatory_tags,'0' optional_tags,parse_keypoint
+  </sql>
+
+  <select id="pageData" resultMap="BaseResultMap" parameterType="com.qy.crm.data.pojo.param.ReportPageParam">
+    SELECT  <include refid="Base_Column_List" /> FROM ${tableName} report
+    <include refid="Page_Where" />
+    order by parse_reportdate desc
+  </select>
+
+  <sql id="Page_Where">
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="parseTitle != null and parseTitle != ''">
+        parse_title like CONCAT('%', #{parseTitle,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="startTime != null and endTime != null and startTime != '' and endTime != ''">
+        AND left(parse_reportdate,10) BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+      </if>
+      <if test="selection != 2">
+        AND report.id
+        <if test="selection != 1">
+          not
+        </if>
+        in (select record_id from select_info info where info.table='${tableName}')
+      </if>
+    </trim>
+  </sql>
+
+  <select id="selectOne" resultMap="BaseResultMap" parameterType="com.qy.crm.data.pojo.common.IdParam">
+    SELECT
+      <include refid="Base_Column_List" />,
+      <include refid="Blob_Column_List" />
+    FROM ${tableName} report
+    where report.id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <resultMap id="BaseResultMap1" type="com.qy.crm.data.pojo.Report">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="parse_orgnization" jdbcType="VARCHAR" property="parseOrgnization" />
+    <result column="parse_title" jdbcType="VARCHAR" property="parseTitle" />
+    <result column="reportdate" jdbcType="TIMESTAMP" property="reportdate" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="orgnization" jdbcType="VARCHAR" property="orgnization" />
+  </resultMap>
+
+  <sql id="Base_Column_List1">
+    orgnization,parse_orgnization,parse_title,reportdate,title
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="com.qy.crm.data.pojo.common.IdParam" resultMap="BaseResultMap1">
+    select
+    <include refid="Base_Column_List1" />
+    from ${tableName}
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

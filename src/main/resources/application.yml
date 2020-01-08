@@ -1,0 +1,63 @@
+server:
+  port: 8084
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    password: jpdbb1387lipushdatabseredis
+
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://39.100.77.13:3306/stock_spider?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
+    username: root
+    password: qq123456
+#    url: jdbc:mysql://39.98.37.245:3305/stock_spider_new?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
+#    username: crawler
+#    password: qq123456
+    tomcat:
+      validation-query: select 1
+      validation-query-timeout: 3
+      test-on-borrow: true
+  data:
+    elasticsearch:
+#      cluster-name: rpt_search_cluster_v2
+#      cluster-nodes: 39.98.186.38:9300
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.1.120:9300
+
+#  指向mapper的xml文件位置
+mybatis:
+    mapper-locations: classpath*:/com/qy/crm/data/mapper/*.xml
+    type-aliases-package: com.qy.crm.data.pojo
+
+#  pagehelper分页插件配置
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params=count: countSql
+swagger:
+#    host: 39.98.37.245:8084
+    host: localhost:8084
+
+jwt:
+#  header: Authorization
+  token:
+    secret: mySecret
+#    7天
+#    expiration: 604800
+
+#    一天
+    expiration: 86400
+#   30s
+#    expiration: 30
+
+

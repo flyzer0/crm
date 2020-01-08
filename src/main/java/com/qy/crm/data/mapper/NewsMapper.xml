@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qy.crm.data.dao.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.qy.crm.data.pojo.News">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="website" jdbcType="VARCHAR" property="website" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="crawl_time" jdbcType="TIMESTAMP" property="crawlTime" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ns.id,type,url,website,title,time,crawl_time,account,
+    (case when ns.id in
+			(select record_id from select_info info where info.table='${tableName}')
+			then '1' else '0' end)selection
+  </sql>
+  <sql id="Blob_Column_List">
+    summary,content
+  </sql>
+
+  <select id="pageData" resultMap="BaseResultMap" parameterType="com.qy.crm.data.pojo.param.WeixinPageParam">
+    SELECT  <include refid="Base_Column_List" /> FROM news ns
+    <include refid="Page_Where" />
+    order by time desc
+  </select>
+
+  <sql id="Page_Where">
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="title != null and title != ''">
+        title like CONCAT('%', #{title,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="website != null and website != ''">
+        AND website like CONCAT('%', #{website,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="startTime != null and endTime != null and startTime != '' and endTime != ''">
+        AND left(reportdate,10) BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+      </if>
+      <if test="selection != 2">
+        AND ns.id
+        <if test="selection != 1">
+          not
+        </if>
+        in (select record_id from select_info info where info.table='${tableName}')
+      </if>
+    </trim>
+  </sql>
+
+  <select id="selectOne" resultMap="BaseResultMap" parameterType="com.qy.crm.data.pojo.common.IdParam">
+    SELECT
+    <include refid="Base_Column_List" />,
+    <include refid="Blob_Column_List" />
+    FROM news ns
+    where ns.id = #{id,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Class-Path: spring-boot-starter-1.5.7.RELEASE.jar spring-web-4.3.11.RE
+ LEASE.jar spring-data-keyvalue-1.2.7.RELEASE.jar spring-oxm-4.3.11.RE
+ LEASE.jar jackson-annotations-2.8.0.jar mybatis-spring-boot-starter-1
+ .3.0.jar pagehelper-spring-boot-autoconfigure-1.2.3.jar jedis-2.9.0.j
+ ar hibernate-validator-5.3.5.Final.jar springfox-spi-2.6.1.jar pagehe
+ lper-5.1.2.jar spring-aop-4.3.11.RELEASE.jar tools.jar spring-boot-st
+ arter-tomcat-1.5.7.RELEASE.jar commons-io-2.5.jar mybatis-3.4.4.jar s
+ pring-data-commons-1.13.7.RELEASE.jar spring-boot-starter-jdbc-1.5.7.
+ RELEASE.jar jul-to-slf4j-1.7.25.jar tomcat-juli-8.5.20.jar pagehelper
+ -spring-boot-starter-1.2.3.jar druid-1.0.31.jar slf4j-api-1.7.25.jar 
+ spring-expression-4.3.11.RELEASE.jar classmate-1.3.4.jar spring-boot-
+ starter-web-1.5.7.RELEASE.jar fastjson-1.2.38.jar springfox-schema-2.
+ 6.1.jar mysql-connector-java-5.1.44.jar tomcat-embed-core-8.5.20.jar 
+ log4j-api-2.7.jar jsqlparser-1.0.jar spring-plugin-core-1.2.0.RELEASE
+ .jar snakeyaml-1.17.jar tomcat-jdbc-8.5.20.jar spring-context-support
+ -4.3.11.RELEASE.jar guava-18.0.jar spring-boot-starter-log4j2-1.5.7.R
+ ELEASE.jar springfox-swagger-common-2.6.1.jar swagger-models-1.5.10.j
+ ar jconsole.jar springfox-swagger2-2.6.1.jar mybatis-spring-boot-auto
+ configure-1.3.0.jar jackson-core-2.8.10.jar commons-codec-1.10.jar sp
+ ringfox-core-2.6.1.jar swagger-annotations-1.5.10.jar springfox-swagg
+ er-ui-2.6.1.jar mapstruct-1.0.0.Final.jar log4j-slf4j-impl-2.7.jar sp
+ ring-beans-4.3.11.RELEASE.jar lombok-1.16.18.jar jcl-over-slf4j-1.7.2
+ 5.jar commons-pool2-2.4.2.jar log4j-core-2.7.jar spring-data-redis-1.
+ 8.7.RELEASE.jar spring-context-4.3.11.RELEASE.jar spring-boot-1.5.7.R
+ ELEASE.jar jboss-logging-3.3.1.Final.jar tomcat-embed-websocket-8.5.2
+ 0.jar spring-webmvc-4.3.11.RELEASE.jar springfox-spring-web-2.6.1.jar
+  spring-boot-starter-data-redis-1.5.7.RELEASE.jar commons-lang3-3.6.j
+ ar spring-core-4.3.11.RELEASE.jar spring-plugin-metadata-1.2.0.RELEAS
+ E.jar spring-tx-4.3.11.RELEASE.jar jackson-databind-2.8.10.jar spring
+ -jdbc-4.3.11.RELEASE.jar spring-boot-autoconfigure-1.5.7.RELEASE.jar 
+ validation-api-1.1.0.Final.jar tomcat-embed-el-8.5.20.jar mybatis-spr
+ ing-1.3.1.jar
+Main-Class: com.qy.crm.CrmApplication
+

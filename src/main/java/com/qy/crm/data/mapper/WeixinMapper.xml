@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qy.crm.data.dao.WeixinMapper">
+  <resultMap id="BaseResultMap" type="com.qy.crm.data.pojo.Weixin">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="reportdate" jdbcType="TIMESTAMP" property="reportDate" />
+    <result column="gzh_id" jdbcType="VARCHAR" property="gzhId" />
+    <result column="gzh_name" jdbcType="VARCHAR" property="gzhName" />
+    <result column="mandatory_tags" jdbcType="VARCHAR" property="mandatoryTags" />
+    <result column="optional_tags" jdbcType="VARCHAR" property="optionalTags" />
+    <result column="selection" jdbcType="INTEGER" property="selection" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wx.id,title,reportdate,gzh_id,gzh_name,
+    (case when wx.id in
+			(select record_id from select_info info where info.table='${tableName}')
+			then '1' else '0' end)selection
+  </sql>
+  <sql id="Blob_Column_List">
+    mandatory_tags,optional_tags
+  </sql>
+
+  <select id="pageData" resultMap="BaseResultMap" parameterType="com.qy.crm.data.pojo.param.WeixinPageParam">
+    SELECT  <include refid="Base_Column_List" /> FROM weixin wx
+    <include refid="Page_Where" />
+    order by reportdate desc
+  </select>
+
+  <sql id="Page_Where">
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="title != null and title != ''">
+        title like CONCAT('%', #{title,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="gzhName != null and gzhName != ''">
+        AND gzh_name like CONCAT('%', #{gzhName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="startTime != null and endTime != null and startTime != '' and endTime != ''">
+        AND left(reportdate,10) BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+      </if>
+      <if test="selection != 2">
+        AND wx.id
+        <if test="selection != 1">
+          not
+        </if>
+        in (select record_id from select_info info where info.table='${tableName}')
+      </if>
+    </trim>
+  </sql>
+
+  <select id="selectOne" resultMap="BaseResultMap" parameterType="com.qy.crm.data.pojo.common.IdParam">
+    SELECT
+    <include refid="Base_Column_List" />,
+    <include refid="Blob_Column_List" />
+    FROM weixin wx
+    where wx.id = #{id,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

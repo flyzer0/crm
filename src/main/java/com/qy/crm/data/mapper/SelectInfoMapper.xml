@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qy.crm.data.dao.SelectInfoMapper">
+  <resultMap id="BaseResultMap" type="com.qy.crm.data.pojo.SelectInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="table" jdbcType="VARCHAR" property="table" />
+    <result column="record_id" jdbcType="VARCHAR" property="recordId" />
+    <result column="record_es_id" jdbcType="VARCHAR" property="recordEsId" />
+    <result column="select_rating" jdbcType="INTEGER" property="selectRating" />
+    <result column="select_datetime" jdbcType="TIMESTAMP" property="selectDatetime" />
+    <result column="select_title" jdbcType="VARCHAR" property="selectTitle" />
+    <result column="select_stick" jdbcType="VARCHAR" property="selectStick" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qy.crm.data.pojo.SelectInfo">
+    <result column="select_keypoint" jdbcType="LONGVARCHAR" property="selectKeypoint" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, `table`, record_id, record_es_id, select_rating, select_datetime, select_title,
+    select_stick
+  </sql>
+  <sql id="Blob_Column_List">
+    select_keypoint
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.qy.crm.data.pojo.SelectInfoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from select_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.qy.crm.data.pojo.SelectInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from select_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from select_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from select_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qy.crm.data.pojo.SelectInfoExample">
+    delete from select_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qy.crm.data.pojo.SelectInfo">
+    insert into select_info (id, table, record_id, 
+      record_es_id, select_rating, select_datetime, 
+      select_title, select_stick, select_keypoint
+      )
+    values (#{id,jdbcType=BIGINT}, #{table,jdbcType=VARCHAR}, #{recordId,jdbcType=VARCHAR}, 
+      #{recordEsId,jdbcType=VARCHAR}, #{selectRating,jdbcType=INTEGER}, #{selectDatetime,jdbcType=TIMESTAMP}, 
+      #{selectTitle,jdbcType=VARCHAR}, #{selectStick,jdbcType=VARCHAR}, #{selectKeypoint,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qy.crm.data.pojo.SelectInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into select_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="table != null">
+        `table`,
+      </if>
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="recordEsId != null">
+        record_es_id,
+      </if>
+      <if test="selectRating != null">
+        select_rating,
+      </if>
+      <if test="selectDatetime != null">
+        select_datetime,
+      </if>
+      <if test="selectTitle != null">
+        select_title,
+      </if>
+      <if test="selectStick != null">
+        select_stick,
+      </if>
+      <if test="selectKeypoint != null">
+        select_keypoint,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="table != null">
+        #{table,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordEsId != null">
+        #{recordEsId,jdbcType=VARCHAR},
+      </if>
+      <if test="selectRating != null">
+        #{selectRating,jdbcType=INTEGER},
+      </if>
+      <if test="selectDatetime != null">
+        #{selectDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="selectTitle != null">
+        #{selectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="selectStick != null">
+        #{selectStick,jdbcType=VARCHAR},
+      </if>
+      <if test="selectKeypoint != null">
+        #{selectKeypoint,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qy.crm.data.pojo.SelectInfoExample" resultType="java.lang.Long">
+    select count(*) from select_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update select_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.table != null">
+        table = #{record.table,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordEsId != null">
+        record_es_id = #{record.recordEsId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.selectRating != null">
+        select_rating = #{record.selectRating,jdbcType=INTEGER},
+      </if>
+      <if test="record.selectDatetime != null">
+        select_datetime = #{record.selectDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.selectTitle != null">
+        select_title = #{record.selectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.selectStick != null">
+        select_stick = #{record.selectStick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.selectKeypoint != null">
+        select_keypoint = #{record.selectKeypoint,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update select_info
+    set id = #{record.id,jdbcType=BIGINT},
+      table = #{record.table,jdbcType=VARCHAR},
+      record_id = #{record.recordId,jdbcType=VARCHAR},
+      record_es_id = #{record.recordEsId,jdbcType=VARCHAR},
+      select_rating = #{record.selectRating,jdbcType=INTEGER},
+      select_datetime = #{record.selectDatetime,jdbcType=TIMESTAMP},
+      select_title = #{record.selectTitle,jdbcType=VARCHAR},
+      select_stick = #{record.selectStick,jdbcType=VARCHAR},
+      select_keypoint = #{record.selectKeypoint,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update select_info
+    set id = #{record.id,jdbcType=BIGINT},
+      table = #{record.table,jdbcType=VARCHAR},
+      record_id = #{record.recordId,jdbcType=VARCHAR},
+      record_es_id = #{record.recordEsId,jdbcType=VARCHAR},
+      select_rating = #{record.selectRating,jdbcType=INTEGER},
+      select_datetime = #{record.selectDatetime,jdbcType=TIMESTAMP},
+      select_title = #{record.selectTitle,jdbcType=VARCHAR},
+      select_stick = #{record.selectStick,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qy.crm.data.pojo.SelectInfo">
+    update select_info
+    <set>
+      <if test="table != null">
+        `table` = #{table,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordEsId != null">
+        record_es_id = #{recordEsId,jdbcType=VARCHAR},
+      </if>
+      <if test="selectRating != null">
+        select_rating = #{selectRating,jdbcType=INTEGER},
+      </if>
+      <if test="selectDatetime != null">
+        select_datetime = #{selectDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="selectTitle != null">
+        select_title = #{selectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="selectStick != null">
+        select_stick = #{selectStick,jdbcType=VARCHAR},
+      </if>
+      <if test="selectKeypoint != null">
+        select_keypoint = #{selectKeypoint,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qy.crm.data.pojo.SelectInfo">
+    update select_info
+    set table = #{table,jdbcType=VARCHAR},
+      record_id = #{recordId,jdbcType=VARCHAR},
+      record_es_id = #{recordEsId,jdbcType=VARCHAR},
+      select_rating = #{selectRating,jdbcType=INTEGER},
+      select_datetime = #{selectDatetime,jdbcType=TIMESTAMP},
+      select_title = #{selectTitle,jdbcType=VARCHAR},
+      select_stick = #{selectStick,jdbcType=VARCHAR},
+      select_keypoint = #{selectKeypoint,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qy.crm.data.pojo.SelectInfo">
+    update select_info
+    set table = #{table,jdbcType=VARCHAR},
+      record_id = #{recordId,jdbcType=VARCHAR},
+      record_es_id = #{recordEsId,jdbcType=VARCHAR},
+      select_rating = #{selectRating,jdbcType=INTEGER},
+      select_datetime = #{selectDatetime,jdbcType=TIMESTAMP},
+      select_title = #{selectTitle,jdbcType=VARCHAR},
+      select_stick = #{selectStick,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <resultMap id="BaseResultMap1" type="com.qy.crm.data.pojo.SelectInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="table" jdbcType="VARCHAR" property="table" />
+    <result column="record_id" jdbcType="VARCHAR" property="recordId" />
+    <result column="record_es_id" jdbcType="VARCHAR" property="recordEsId" />
+    <result column="select_rating" jdbcType="INTEGER" property="selectRating" />
+    <result column="select_datetime" jdbcType="TIMESTAMP" property="selectDatetime" />
+    <result column="select_title" jdbcType="VARCHAR" property="selectTitle" />
+    <result column="select_stick" jdbcType="VARCHAR" property="selectStick" />
+    <result column="select_keypoint" jdbcType="VARCHAR" property="selectKeypoint" />
+    <collection property="tags" ofType="SelectTags">
+      <id column="tag_id" jdbcType="BIGINT" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <sql id="Base_Column_List_Tags">
+    tt.tag_id, tt.name
+  </sql>
+  <sql id="Base_Column_List_Info">
+    si.id, si.table, si.record_id, si.record_es_id, si.select_rating, si.select_datetime, si.select_title,
+    si.select_stick
+  </sql>
+  <sql id="Blob_Column_List_Info">
+    si.select_keypoint
+  </sql>
+
+  <select id="selectByRecordId" resultMap="BaseResultMap1" parameterType="com.qy.crm.data.pojo.common.IdParam">
+    SELECT
+    <include refid="Base_Column_List_Info" />,
+    <include refid="Blob_Column_List_Info" />,
+    <include refid="Base_Column_List_Tags" />
+    from (
+      select * from select_info i where i.table='${tableName}' and i.record_id=#{id,jdbcType=VARCHAR}
+    ) si
+    left join (
+      select tags.id tag_id,name,it.info_id from select_tags tags inner join info_tags it on tags.id = it.tag_id
+    ) tt on si.id = tt.info_id
+
+  </select>
+
+  <select id="pageData" resultMap="BaseResultMap" parameterType="com.qy.crm.data.pojo.param.SelectionPageParam">
+    SELECT  <include refid="Base_Column_List" /> FROM select_info info
+    <include refid="Page_Where" />
+    order by select_datetime desc
+  </select>
+
+  <sql id="Page_Where">
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="selectTitle != null and selectTitle != ''">
+        select_title like CONCAT('%', #{selectTitle,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="selectRating != null">
+        AND select_rating = #{selectRating,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null and endTime != null and startTime != '' and endTime != ''">
+        AND left(select_datetime,10) BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+      </if>
+      <if test="selectStick != null and selectStick != ''">
+        AND select_stick = #{selectRating,jdbcType=VARCHAR}
+      </if>
+      <if test="tableName != null and tableName != ''">
+        AND  `table` = #{tableName,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+
+  <select id="selectById" resultMap="BaseResultMap1">
+    SELECT
+    <include refid="Base_Column_List_Info" />,
+    <include refid="Blob_Column_List_Info" />,
+    <include refid="Base_Column_List_Tags" />
+    from (
+    select * from select_info i where  i.id=#{id,jdbcType=INTEGER}
+    ) si
+    left join (
+    select tags.id tag_id,name,it.info_id from select_tags tags inner join info_tags it on tags.id = it.tag_id
+    ) tt on si.id = tt.info_id
+
+  </select>
+
+</mapper>
