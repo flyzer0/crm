@@ -22,6 +22,7 @@ import java.util.Map;
 @Configuration
 @MapperScan(basePackages = "com.qy.crm.data.dao")
 public class MyBatisConfig {
+
     @Value("${spring.datasource.url}")
     String dbUrl;
     @Value("${spring.datasource.username}")
